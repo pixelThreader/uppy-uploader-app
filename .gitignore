@@ -1,2 +1,3 @@
-venv\
-uppy\testd.py
+
+/uppy/.env
+/uppy/.gitignore

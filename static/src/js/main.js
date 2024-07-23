@@ -5,6 +5,21 @@
 * Creator: Piyush Rana
 */
 
+// ripple effect
+$('.rip').on('click', function (e) {
+    let $this = $(this);
+    let offset = $this.offset();
+    let x = e.clientX - offset.left;
+    let y = e.clientY - offset.top;
+    let ripples = $('<span>').addClass('ripple-effect')
+        .css({ 'left': x + 'px', 'top': y + 'px' });
+    $this.append(ripples);
+
+    setTimeout(() => {
+        ripples.remove();
+    }, 500);
+});
+
 $(document).ready(function () {
     // initially check the user theme and update it...
 
@@ -34,7 +49,7 @@ $(document).ready(function () {
     });
 
     // Click event to toggle profile dropdown...
-    $('#profile-dropdown-toggle').click(function () { 
+    $('#profile-dropdown-toggle').click(function () {
         popperInstance.update(); // Update Popper position...
         const isOpen = $('#profile-dropdown').attr('isOpen');
         if (isOpen === "closed") {
@@ -95,44 +110,63 @@ $(document).ready(function () {
     });
 
     // Search Function...
-    // Add event listener for form submission...
+    const $inputField = $('#search-content');
+    const $submitButton = $('.search-btn button[type="submit"]');
+
+    // Disable the submit button initially
+    $submitButton.prop('disabled', true);
+
+    // Enable/disable the submit button based on input field content
+    $inputField.on('input', function () {
+        if ($inputField.val().trim() !== "") {
+            $submitButton.prop('disabled', false);
+        } else {
+            $submitButton.prop('disabled', true);
+        }
+    });
+
+    // Add event listener for form submission
     $('#search-form').submit(function (event) {
-        // Prevent default form submission...
-        event.preventDefault();
-        const searchContent = $('#search-content').val(); // Get the search query from the input field...
-        window.location.href = searchUrl + "?query=" + encodeURIComponent(searchContent); // Redirect to the search URL with the search query...
+        const searchContent = $inputField.val().trim();
+
+        // Prevent form submission if the input field is empty
+        if (searchContent === "") {
+            event.preventDefault();
+        } else {
+            // Redirect to the search URL with the search query
+            const searchUrl = "/search"; // Update this with your actual search URL
+            window.location.href = searchUrl + "?query=" + encodeURIComponent(searchContent);
+        }
     });
-    // Add event listener for pressing enter in the input field...
-    $('#search-content').keypress(function (event) {
+
+    // Add event listener for pressing enter in the input field
+    $inputField.keypress(function (event) {
         if (event.key === 'Enter') {
-            $('#search-form').submit(); // Trigger form submission when enter key is pressed...
+            $('#search-form').submit(); // Trigger form submission when enter key is pressed
         }
     });
 
-    // Keyboard Shortcuts...
+    // Keyboard Shortcuts
     $(document).keydown(function (e) {
-        // Focus on search input when Ctrl+/ or Ctrl+k is pressed...
-        if (e.ctrlKey && e.key === '/') {
-            $("#search-content").focus();
+        // Focus on search input when Ctrl+/ or Ctrl+k is pressed
+        if (e.ctrlKey && (e.key === '/' || e.key === 'k')) {
+            $inputField.focus();
             e.preventDefault();
         }
-        else if (e.ctrlKey && e.key === 'k') {
-            $("#search-content").focus();
-            e.preventDefault();
-        }
-        // Blur search input when Escape key is pressed...
+        // Blur search input when Escape key is pressed
         if (e.key === 'Escape') {
-            $("#search-content").blur();
+            $inputField.blur();
             e.preventDefault();
         }
     });
 
-    // Focus Class Handling...
-    $("#search-content").focus(function () { // Add focus class when search input is focused...
+    // Focus Class Handling
+    $inputField.focus(function () {
         $(".shortcut").addClass("focus");
     });
-    $("#search-content").blur(function () { // Remove focus class when search input is blurred...
-        if ($(this).val() === '') {
+
+    $inputField.blur(function () {
+        if ($inputField.val().trim() === '') {
             $(".shortcut").removeClass("focus");
         } else {
             $(".shortcut").addClass("focus");

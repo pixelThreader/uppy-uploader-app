@@ -112,6 +112,34 @@
   font-family: "consolas" !important;
 }
 
+.rip {
+  position: relative;
+  overflow: hidden;
+}
+
+.rip span.ripple-effect {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.431372549);
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  transition: 0.5s ease;
+  animation: ripple 0.5s linear infinite;
+}
+
+@keyframes ripple {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 1;
+  }
+  100% {
+    height: 150px;
+    width: 150px;
+    opacity: 0;
+  }
+}
 * {
   padding: 0;
   margin: 0;
@@ -297,7 +325,7 @@ header .wrapper .searchBarWrapper .shortcut .key {
   align-items: center;
   font-weight: bold;
   border-radius: 0.7rem;
-  padding: 0 1.1rem;
+  padding: 0 1rem;
   background: var(--shortcut-bg);
   color: var(--shortcut-key-clr);
 }
@@ -328,6 +356,16 @@ header .wrapper .searchBarWrapper .search-btn button[type=submit] {
   cursor: pointer;
   transition: 0.4s;
   font-size: 1.7rem;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+header .wrapper .searchBarWrapper .search-btn button[type=submit]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+header .wrapper .searchBarWrapper .search-btn button[type=submit]:not(:disabled) {
+  opacity: 1;
+  cursor: pointer;
 }
 header .wrapper .searchBarWrapper .search-btn button[type=submit]:active {
   transition: 0s;
@@ -434,7 +472,7 @@ header .wrapper .right-header-panel .right-cont .your-profile .open-menu {
 }
 header .wrapper .right-header-panel .right-cont .toggle-menu .open-menu.active,
 header .wrapper .right-header-panel .right-cont .your-profile .open-menu.active {
-  transform: translateY(-47px);
+  transform: translateY(-50px);
 }
 header .wrapper .right-header-panel .right-cont .toggle-menu .open-menu svg.menu,
 header .wrapper .right-header-panel .right-cont .your-profile .open-menu svg.menu {

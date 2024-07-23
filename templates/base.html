@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/static/src/scss/uppy.main.css">
 </head>
 
-<body class="scroll-beautiful" data-uppy-font="playwrite3">
+<body class="scroll-beautiful" data-uppy-font="ubuntu">
 
     <header style="z-index: 100000;">
         <div class="wrapper">
@@ -37,7 +37,7 @@
                         <div class="key">/</div>
                     </span>
                     <div class="search-btn">
-                        <button type="submit">
+                        <button type="submit" disabled="true" class="rip">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="toggle-menu menu" id="main-menu-toggler">
+                    <div class="toggle-menu menu rip" id="main-menu-toggler">
                         <div class="open-menu" isOpen="closed">
                             <svg xmlns="http://www.w3.org/2000/svg" class="menu" viewBox="0 0 512 512">
                                 <path fill="none" stroke="#006c66" stroke-linecap="round" stroke-miterlimit="10"
@@ -80,9 +80,13 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="your-profile" id="profile-dropdown-toggle">
+                    <div class="your-profile rip" id="profile-dropdown-toggle">
                         <div class="profile-img-box">
+                            {% if request.user.is_anonymous %}
+                            <img src="/static/src/imgs/anonimous.png" alt="User">
+                            {% else %}
                             <img src="{{ request.user.uppyusercredentials.Avatar.url }}" alt="{{ request.user.first_name }}">
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -91,8 +95,26 @@
 
         <div class="dropdown" id="profile-dropdown" isOpen="closed">
             <ul>
+                {% if request.user.is_anonymous %}
                 <li>
-                    <a href="/usage" class="use link-profile-nav">
+                    <a href="{% url 'signup' %}" class="sett link-profile-nav rip">
+                        <div class="icon-action sett">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </div>
+                        <span class="action-name sett">Signup</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'login' %}" class="sett link-profile-nav rip">
+                        <div class="icon-action sett">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                        </div>
+                        <span class="action-name sett">Login</span>
+                    </a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/usage" class="use link-profile-nav rip">
                         <div class="icon-action use">
                             <i class="bi bi-graph-up"></i>
                         </div>
@@ -100,7 +122,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/@{{ user.username }}" class="prfle link-profile-nav">
+                    <a href="/@{{ user.username }}" class="prfle link-profile-nav rip">
                         <div class="icon-action prfle">
                             <i class="bi bi-person-fill"></i>
                         </div>
@@ -108,7 +130,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/settings" class="sett link-profile-nav">
+                    <a href="/settings" class="sett link-profile-nav rip">
                         <div class="icon-action sett">
                             <i class="bi bi-gear-wide-connected"></i>
                         </div>
@@ -117,13 +139,14 @@
                 </li>
                 <hr>
                 <li>
-                    <a href="{% url 'logout' %}" class="lout link-profile-nav">
+                    <a href="{% url 'logout' %}" class="lout link-profile-nav rip">
                         <div class="icon-action lout">
                             <i class="bi bi-box-arrow-right"></i>
                         </div>
                         <span class="action-name lout">Log Out</span>
                     </a>
                 </li>
+                {% endif %}
             </ul>
         </div>
 
@@ -131,31 +154,31 @@
             <div class="nav-main-container">
                 <nav>
                     <ul>
-                        <li class="nav-item">
+                        <li class="nav-item rip">
                             <a href="/about">About Us</a>
                         </li>
                         <li class="nav-item">
                             <a href="/favourites">Favourites</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item rip">
                             <a href="/upload">Your Uploads</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item rip">
                             <a href="/upload/file">Upload File</a>
                         </li>
-                        <li class="nav-item mobile-nav-item">
+                        <li class="nav-item rip mobile-nav-item">
                             <a href="/search?query=file">Search</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item rip">
                             <a href="/chat">Chat</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item rip">
                             <a href="/contact">Contact Us</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item rip">
                             <a href="{% url 'blogs' %}">Blogs and Communities</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item rip">
                             <a href="/about">About Project</a>
                         </li>
                     </ul>
