@@ -22,7 +22,6 @@ Welcome to Uppy Cloud – Your Personal Cloud Storage Solution 🚀
 ## Creator
 
 **Name:** Piyush Rana  
-**Age:** 20  
 **Date Created:** 24-04-2024 
 
 I'm a passionate web developer with a keen interest in modern web technologies. With a dedication to learning and exploring new concepts in web development.
